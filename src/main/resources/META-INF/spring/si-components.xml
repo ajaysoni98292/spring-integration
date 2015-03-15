@@ -22,7 +22,7 @@
 
     <!-- Adapter for reading the files-->
     <int-file:inbound-channel-adapter id="producer-file-adapter"
-                                      channel="messageChannel" directory="file:c://inbound"
+                                      channel="inboundChannel" directory="file:c://inbound"
                                       prevent-duplicates="true">
         <int:poller fixed-rate="5000" />
     </int-file:inbound-channel-adapter>
@@ -35,7 +35,7 @@
             id="consumer2" channel="messageChannel" append-newline="true"/>-->
 
     <!-- Adapter for writing the files -->
-    <int-file:outbound-channel-adapter channel="messageChannel"
+    <int-file:outbound-channel-adapter channel="outboundChannel"
                                        id="consumer-file-adapter" directory="file:c://outbound" />
 
     <int:poller id="defaultPoller" default="true"
@@ -50,4 +50,11 @@
             <int:queue capacity="2" />
         </int:channel>-->
 
+    <!-- Added the file selector filter -->
+
+    <int:channel id="inboundChannel" />
+    <int:channel id="outboundChannel" />
+    <bean id="selector" class="com.spring.integration.sample.lab1.FileSelector"></bean>
+    <int:filter input-channel="inboundChannel"
+                output-channel="outboundChannel" ref="selector" />
 </beans>

@@ -23,6 +23,12 @@
                 max-messages-per-poll="5" fixed-rate="200" />
 
     <!-- a pub/sub message channel -->
-    <int:publish-subscribe-channel id="messageChannel" />
+    <!--<int:publish-subscribe-channel id="messageChannel" />-->
+
+    <!-- a pollable message channel -->
+
+    <int:channel id="messageChannel">
+        <int:queue capacity="2" />
+    </int:channel>
 
 </beans>
